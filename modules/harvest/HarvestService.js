@@ -1,5 +1,5 @@
 FarmClickerApp.service('harvest', function(){
-  var harvestCropButton = "../../assets/img/oat.png.jpg";
+  var harvestCropButton = "../../assets/img/oat.png";
   var cropsHarvested = 0;
   var harvestPerSec = 0;
   var harvestPerClick = 1;
