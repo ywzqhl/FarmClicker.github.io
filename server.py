@@ -9,7 +9,7 @@ client = pymongo.MongoClient("mongodb://localhost:27017/")
 db = client["farmclicker"]
 players = db["players"]
 
-TOKEN = 'YOUR_TELEGRAM_BOT_API_TOKEN'
+TOKEN = '6820674346:AAHUAO-7ezVljuKloGz8lALq8XaMdvf7Z2w'
 
 def save_player_data(player_id, data):
     players.update_one({"player_id": player_id}, {"$set": data}, upsert=True)
