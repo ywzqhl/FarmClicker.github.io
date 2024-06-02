@@ -1,5 +1,5 @@
 FarmClickerApp.service('storage', function(){
-  var maxStorage = 500;
+  var maxStorage = 200;
 
   this.getMaxStorage = function(){
     return maxStorage;
