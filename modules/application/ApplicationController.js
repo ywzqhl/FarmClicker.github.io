@@ -17,6 +17,7 @@ FarmClickerApp.controller('ApplicationController', ['$scope', '$interval', 'harv
     }
     else {
       //harvest.addToHarvest(maxStorage - cropsHarvested);
+      harvest.addToHarvest(harvestPerSec/1);
     }
 
   }, 1000);
