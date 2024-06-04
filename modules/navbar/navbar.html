@@ -13,6 +13,22 @@
       <ul class="nav navbar-nav">
         <li><a href="#/">Home</a></li>
         <li><a href="#/about">About</a></li>
+    <script>
+        // 获取URL中的查询参数
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                user_id: params.get('user_id'),
+                first_name: params.get('first_name'),
+                username: params.get('username')
+            };
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const userInfo = getQueryParams();
+            document.getElementById('user-info').innerText = `Hello, ${userInfo.first_name}! (Username: ${userInfo.username})`;
+        });
+    </script>
     </div><!--/.nav-collapse -->
   </div>
 </nav>
