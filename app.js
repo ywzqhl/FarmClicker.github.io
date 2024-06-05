@@ -78,3 +78,33 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("siloStorage").innerText = siloStorage;
     document.getElementById("level").innerText = "Bronze";
 });
+
+let clickCount = 0;
+
+const clickArea = document.getElementById('clickArea');
+
+// Function to handle touch events
+function handleTouchEvent(event) {
+    // Prevent default behavior
+    event.preventDefault();
+
+    // Count the number of touch points
+    const touchPoints = event.touches.length;
+
+    // Increase the click count by the number of touch points
+    clickCount += touchPoints;
+
+    // Update the display (assuming you have an element to show the count)
+    document.getElementById('clickCountDisplay').innerText = `Clicks: ${clickCount}`;
+}
+
+// Function to handle mouse click events
+function handleMouseEvent(event) {
+    clickCount++;
+    document.getElementById('clickCountDisplay').innerText = `Clicks: ${clickCount}`;
+}
+
+// Add event listeners for touch and mouse events
+clickArea.addEventListener('touchstart', handleTouchEvent, false);
+clickArea.addEventListener('mousedown', handleMouseEvent, false);
+
