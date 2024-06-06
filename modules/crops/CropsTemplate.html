@@ -1,5 +1,10 @@
 <div class="crop" ng-repeat="crop in crops">
-  <!-- Image click triggers increment function -->
-  <img ng-src="{{crop.image}}" alt="{{crop.name}}" ng-click="increment()">
-  <p>{{crop.name}}</p>
+    <img ng-src="{{crop.image}}" alt="{{crop.name}}" ng-click="increment()">
+    <p>{{crop.name}}</p>
 </div>
+
+<!-- 新功能按钮 -->
+<button ng-click="useFreeRefill()">Use Free Refill</button>
+<button ng-click="buyMultitap()">Buy Multitap</button>
+<button ng-click="buyEnergyLimit()">Buy Energy Limit</button>
+<button ng-click="dailyReward()">Claim Daily Reward</button>
