@@ -1,55 +1,123 @@
-.gameBoard {
-  text-align: center;
+body {
+    background-color: #282c34;
+    color: white;
+    font-family: Arial, sans-serif;
 }
 
-.mainContent {
-    margin-top: 60px;
+.status {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+    color: #fff;
 }
 
-.littleHarvest {width:290px; height:290px;}
-
-.resetlink, .shrink, .pointer {
-  cursor:pointer;
+.status-item {
+    text-align: center;
 }
 
-.unavailable {
-  opacity: 0.3;
-  cursor:default;
+.status-label {
+    display: block;
+    font-size: 12px;
 }
 
-h5 {
-  font-style: italic;
+.status-value {
+    font-size: 18px;
+    font-weight: bold;
 }
 
-td {
-    padding: 10px;
+.balance {
+    text-align: center;
+    margin: 20px 0;
 }
 
-/* New styles for click count display */
-.click-count-display {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size: 24px;
-    color: #333;
+.balance-amount {
+    font-size: 36px;
+    font-weight: bold;
+    color: #ffeb3b;
 }
 
-/* Styles for modal popup */
+.balance-label {
+    display: block;
+    font-size: 14px;
+    margin-top: 5px;
+    color: #ccc;
+}
+
+.character {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.character img {
+    width: 150px;
+    height: auto;
+    border-radius: 50%;
+    border: 2px solid #ffeb3b;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+}
+
+.action-btn {
+    background-color: #ff9800;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.action-btn:hover {
+    background-color: #e68900;
+}
+
 .modal-content {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  padding: 15px;
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #444;
+    padding: 15px;
 }
 
 .modal-header, .modal-body, .modal-footer {
-  padding: 10px;
+    padding: 10px;
 }
 
 .modal-title {
-  font-size: 18px;
-  font-weight: bold;
+    font-size: 18px;
+    font-weight: bold;
 }
 
 .modal-footer .btn {
-  margin-right: 10px;
+    margin-right: 10px;
+    background-color: #ff9800;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.modal-footer .btn-secondary {
+    background-color: #777;
+}
+
+.modal-footer .btn-secondary:hover {
+    background-color: #666;
+}
+
+.modal-footer .btn-primary:hover {
+    background-color: #e68900;
 }
