@@ -1,30 +1,114 @@
 angular.module('CropsController', [])
 .controller('CropsController', function($scope, CropsData) {
-    $scope.clickCount = 0; // Initialize click count
+    $scope.clickCount = 0; // 初始化点击计数
+    $scope.energy = 100; // 初始能量
+    $scope.maxEnergy = 100; // 最大能量
+    $scope.balance = 0; // 初始余额
+    $scope.miningSpeed = 10; // 挖矿速度
+    $scope.lastOnlineTime = Date.now(); // 最后上线时间
+    $scope.freeRefills = 6; // 每日免费补充次数
+    $scope.multitap = 1; // 初始多点触控
+    $scope.multitapPrice = 100; // 多点触控价格
+    $scope.energyLimitPrice = 200; // 能量上限价格
+    $scope.dailyRewards = [500, 1000, 2500, 5000, 15000, 25000, 100000, 500000, 1000000, 5000000];
+    $scope.currentDay = 0; // 当前奖励天数
 
-    // Function to handle touch events for multi-touch counting
+    // 处理触摸事件的函数，用于多点触控计数
     $scope.handleTouchEvent = function(event) {
-        // Prevent default behavior
+        // 阻止默认行为
         event.preventDefault();
 
-        // Count the number of touch points
-        const touchPoints = event.touches.length;
+        // 计算触控点数量
+        const touchPoints = event.touches.length * $scope.multitap;
 
-        // Increase the click count by the number of touch points
-        $scope.clickCount += touchPoints;
+        // 检查能量是否足够
+        if ($scope.energy > 0) {
+            // 根据触控点数量增加点击计数和余额
+            $scope.clickCount += touchPoints;
+            $scope.balance += touchPoints;
+            $scope.energy -= touchPoints;
+        }
 
-        // Trigger Angular's digest cycle to update the view
+        // 触发 Angular 的 digest 循环以更新视图
         $scope.$apply();
     };
 
-    // Function to handle mouse click events
+    // 处理鼠标点击事件
     $scope.increment = function() {
-        $scope.clickCount++;
+        if ($scope.energy > 0) {
+            $scope.clickCount++;
+            $scope.balance++;
+            $scope.energy--;
+        }
     };
 
-    // Fetch crops data
+    // 自动补充能量
+    $scope.autoRefillEnergy = function() {
+        let currentTime = Date.now();
+        let timeDifference = (currentTime - $scope.lastOnlineTime) / (1000 * 60 * 60); // 转换为小时
+
+        if (timeDifference < 3) {
+            $scope.energy += $scope.miningSpeed * timeDifference;
+
+            if ($scope.energy > $scope.maxEnergy) {
+                $scope.energy = $scope.maxEnergy;
+            }
+        }
+
+        $scope.lastOnlineTime = currentTime;
+    };
+
+    // 每日免费补充
+    $scope.dailyFreeRefill = function() {
+        $scope.freeRefills = 6;
+    };
+
+    $scope.useFreeRefill = function() {
+        if ($scope.freeRefills > 0) {
+            $scope.energy = $scope.maxEnergy;
+            $scope.freeRefills--;
+        }
+    };
+
+    // 每日多点触控购买
+    $scope.buyMultitap = function() {
+        if ($scope.balance >= $scope.multitapPrice) {
+            $scope.balance -= $scope.multitapPrice;
+            $scope.multitap++;
+            $scope.multitapPrice *= $scope.multitap;
+        } else {
+            alert('Insufficient balance');
+        }
+    };
+
+    // 能量上限购买
+    $scope.buyEnergyLimit = function() {
+        if ($scope.balance >= $scope.energyLimitPrice) {
+            $scope.balance -= $scope.energyLimitPrice;
+            $scope.maxEnergy += 100;
+            $scope.energyLimitPrice *= 2;
+        } else {
+            alert('Insufficient balance');
+        }
+    };
+
+    // 每日奖励
+    $scope.dailyReward = function() {
+        if ($scope.currentDay < $scope.dailyRewards.length) {
+            $scope.balance += $scope.dailyRewards[$scope.currentDay];
+            $scope.currentDay++;
+        } else {
+            $scope.currentDay = 0;
+            $scope.balance += $scope.dailyRewards[$scope.currentDay];
+        }
+    };
+
+    // 定时自动补充能量，每分钟检查一次
+    setInterval($scope.autoRefillEnergy, 60000);
+
+    // 获取作物数据
     $scope.crops = CropsData;
-    
-    // Add event listeners for touch events on document level
+
+    // 添加触摸事件监听器
     document.addEventListener('touchstart', $scope.handleTouchEvent, false);
 });
