@@ -12,18 +12,39 @@
   <div ng-include src="'modules/navbar/navbar.html'"></div>
   <div ng-view></div>
 
-  <!-- 显示点击计数 -->
+  <!-- Display element for click count -->
   <div id="clickCountDisplay" class="click-count-display" ng-controller="CropsController">
-      Clicks: {{clickCount}}
+      <div class="status">
+        <div class="status-item">
+          <span class="status-label">Earn per tap</span>
+          <span class="status-value">+{{multitap}}</span>
+        </div>
+        <div class="status-item">
+          <span class="status-label">Coins to level up</span>
+          <span class="status-value">1M</span>
+        </div>
+        <div class="status-item">
+          <span class="status-label">Profit per hour</span>
+          <span class="status-value">+{{profitPerHour}}K</span>
+        </div>
+      </div>
+      <div class="balance">
+        <span class="balance-amount">{{balance}}</span>
+        <span class="balance-label">Level {{level}}/{{maxLevel}}</span>
+      </div>
+      <div class="character">
+        <img src="assets/img/character.png" alt="Character">
+      </div>
+      <div class="actions">
+        <button class="action-btn" ng-click="showPopup('freeRefill')">Use Free Refill</button>
+        <button class="action-btn" ng-click="showPopup('multitap')">Buy Multitap</button>
+        <button class="action-btn" ng-click="showPopup('energyLimit')">Buy Energy Limit</button>
+        <button class="action-btn" ng-click="showPopup('dailyReward')">Claim Daily Reward</button>
+      </div>
+    </div>
   </div>
 
-  <!-- 功能按钮 -->
-  <button ng-click="showPopup('freeRefill')">Use Free Refill</button>
-  <button ng-click="showPopup('multitap')">Buy Multitap</button>
-  <button ng-click="showPopup('energyLimit')">Buy Energy Limit</button>
-  <button ng-click="showPopup('dailyReward')">Claim Daily Reward</button>
-
-  <!-- 弹出窗口 -->
+  <!-- Popup modal -->
   <div class="modal" id="popup" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -56,8 +77,4 @@
   <script src="modules/storage/StorageUpgrades.js"></script>
   <script src="modules/application/ApplicationController.js"></script>
   <script src="modules/harvest/HarvestController.js"></script>
-  <script src="modules/productivity/ProductivityController.js"></script>
-  <script src="modules/crops/CropsController.js"></script>
-  <script src="modules/storage/StorageController.js"></script>
-</body>
-</html>
+  <script
