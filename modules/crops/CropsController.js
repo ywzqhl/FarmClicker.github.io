@@ -15,22 +15,14 @@ angular.module('CropsController', [])
 
     // 处理触摸事件的函数，用于多点触控计数
     $scope.handleTouchEvent = function(event) {
-        // 阻止默认行为
-        event.preventDefault();
-
-        // 计算触控点数量
-        const touchPoints = event.touches.length * $scope.multitap;
-
-        // 检查能量是否足够
+        event.preventDefault(); // 阻止默认行为
+        const touchPoints = event.touches.length * $scope.multitap; // 计算触控点数量
         if ($scope.energy > 0) {
-            // 根据触控点数量增加点击计数和余额
-            $scope.clickCount += touchPoints;
-            $scope.balance += touchPoints;
-            $scope.energy -= touchPoints;
+            $scope.clickCount += touchPoints; // 增加点击计数
+            $scope.balance += touchPoints; // 增加余额
+            $scope.energy -= touchPoints; // 减少能量
         }
-
-        // 触发 Angular 的 digest 循环以更新视图
-        $scope.$apply();
+        $scope.$apply(); // 触发 Angular 的 digest 循环以更新视图
     };
 
     // 处理鼠标点击事件
@@ -46,15 +38,12 @@ angular.module('CropsController', [])
     $scope.autoRefillEnergy = function() {
         let currentTime = Date.now();
         let timeDifference = (currentTime - $scope.lastOnlineTime) / (1000 * 60 * 60); // 转换为小时
-
         if (timeDifference < 3) {
             $scope.energy += $scope.miningSpeed * timeDifference;
-
             if ($scope.energy > $scope.maxEnergy) {
                 $scope.energy = $scope.maxEnergy;
             }
         }
-
         $scope.lastOnlineTime = currentTime;
     };
 
@@ -101,6 +90,38 @@ angular.module('CropsController', [])
             $scope.currentDay = 0;
             $scope.balance += $scope.dailyRewards[$scope.currentDay];
         }
+    };
+
+    // 显示弹出窗口
+    $scope.showPopup = function(type) {
+        switch(type) {
+            case 'freeRefill':
+                $scope.popupTitle = "Use Free Refill";
+                $scope.popupContent = "Use one of your daily free refills to restore your energy to the maximum level.";
+                $scope.confirmPopup = $scope.useFreeRefill;
+                break;
+            case 'multitap':
+                $scope.popupTitle = "Buy Multitap";
+                $scope.popupContent = "Increase the number of taps you can register simultaneously. Cost: " + $scope.multitapPrice;
+                $scope.confirmPopup = $scope.buyMultitap;
+                break;
+            case 'energyLimit':
+                $scope.popupTitle = "Buy Energy Limit";
+                $scope.popupContent = "Increase your maximum energy limit. Cost: " + $scope.energyLimitPrice;
+                $scope.confirmPopup = $scope.buyEnergyLimit;
+                break;
+            case 'dailyReward':
+                $scope.popupTitle = "Claim Daily Reward";
+                $scope.popupContent = "Claim your daily reward for day " + ($scope.currentDay + 1) + ": " + $scope.dailyRewards[$scope.currentDay];
+                $scope.confirmPopup = $scope.dailyReward;
+                break;
+        }
+        $('#popup').modal('show');
+    };
+
+    // 隐藏弹出窗口
+    $scope.hidePopup = function() {
+        $('#popup').modal('hide');
     };
 
     // 定时自动补充能量，每分钟检查一次
