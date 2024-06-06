@@ -33,3 +33,23 @@ td {
     font-size: 24px;
     color: #333;
 }
+
+/* Styles for modal popup */
+.modal-content {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 15px;
+}
+
+.modal-header, .modal-body, .modal-footer {
+  padding: 10px;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.modal-footer .btn {
+  margin-right: 10px;
+}
