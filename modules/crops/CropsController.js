@@ -115,24 +115,4 @@ angular.module('CropsController', [])
                 break;
             case 'dailyReward':
                 $scope.popupTitle = "Claim Daily Reward";
-                $scope.popupContent = "Claim your daily reward for day " + ($scope.currentDay + 1) + ": " + $scope.dailyRewards[$scope.currentDay];
-                $scope.confirmPopup = $scope.dailyReward;
-                break;
-        }
-        $('#popup').modal('show');
-    };
-
-    // Hide popup
-    $scope.hidePopup = function() {
-        $('#popup').modal('hide');
-    };
-
-    // Automatically refill energy every minute
-    setInterval($scope.autoRefillEnergy, 60000);
-
-    // Fetch crops data
-    $scope.crops = CropsData;
-
-    // Add touch event listener
-    document.addEventListener('touchstart', $scope.handleTouchEvent, false);
-});
+                $scope.popupContent = "Claim your daily
