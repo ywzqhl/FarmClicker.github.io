@@ -1,31 +1,34 @@
 angular.module('CropsController', [])
 .controller('CropsController', function($scope, CropsData) {
-    $scope.clickCount = 0; // 初始化点击计数
-    $scope.energy = 100; // 初始能量
-    $scope.maxEnergy = 100; // 最大能量
-    $scope.balance = 0; // 初始余额
-    $scope.miningSpeed = 10; // 挖矿速度
-    $scope.lastOnlineTime = Date.now(); // 最后上线时间
-    $scope.freeRefills = 6; // 每日免费补充次数
-    $scope.multitap = 1; // 初始多点触控
-    $scope.multitapPrice = 100; // 多点触控价格
-    $scope.energyLimitPrice = 200; // 能量上限价格
+    $scope.clickCount = 0; // Initialize click count
+    $scope.energy = 100; // Initial energy
+    $scope.maxEnergy = 100; // Maximum energy
+    $scope.balance = 160117; // Initial balance
+    $scope.miningSpeed = 10; // Mining speed
+    $scope.lastOnlineTime = Date.now(); // Last online time
+    $scope.freeRefills = 6; // Daily free refills
+    $scope.multitap = 1; // Initial multitap
+    $scope.multitapPrice = 100; // Multitap price
+    $scope.energyLimitPrice = 200; // Energy limit price
     $scope.dailyRewards = [500, 1000, 2500, 5000, 15000, 25000, 100000, 500000, 1000000, 5000000];
-    $scope.currentDay = 0; // 当前奖励天数
+    $scope.currentDay = 0; // Current reward day
+    $scope.profitPerHour = 2.45; // Profit per hour
+    $scope.level = 4; // Current level
+    $scope.maxLevel = 10; // Maximum level
 
-    // 处理触摸事件的函数，用于多点触控计数
+    // Function to handle touch events for multi-touch counting
     $scope.handleTouchEvent = function(event) {
-        event.preventDefault(); // 阻止默认行为
-        const touchPoints = event.touches.length * $scope.multitap; // 计算触控点数量
+        event.preventDefault(); // Prevent default behavior
+        const touchPoints = event.touches.length * $scope.multitap; // Calculate touch points
         if ($scope.energy > 0) {
-            $scope.clickCount += touchPoints; // 增加点击计数
-            $scope.balance += touchPoints; // 增加余额
-            $scope.energy -= touchPoints; // 减少能量
+            $scope.clickCount += touchPoints; // Increase click count
+            $scope.balance += touchPoints; // Increase balance
+            $scope.energy -= touchPoints; // Decrease energy
         }
-        $scope.$apply(); // 触发 Angular 的 digest 循环以更新视图
+        $scope.$apply(); // Trigger Angular digest cycle to update the view
     };
 
-    // 处理鼠标点击事件
+    // Function to handle mouse click events
     $scope.increment = function() {
         if ($scope.energy > 0) {
             $scope.clickCount++;
@@ -34,10 +37,10 @@ angular.module('CropsController', [])
         }
     };
 
-    // 自动补充能量
+    // Auto refill energy
     $scope.autoRefillEnergy = function() {
         let currentTime = Date.now();
-        let timeDifference = (currentTime - $scope.lastOnlineTime) / (1000 * 60 * 60); // 转换为小时
+        let timeDifference = (currentTime - $scope.lastOnlineTime) / (1000 * 60 * 60); // Convert to hours
         if (timeDifference < 3) {
             $scope.energy += $scope.miningSpeed * timeDifference;
             if ($scope.energy > $scope.maxEnergy) {
@@ -47,7 +50,7 @@ angular.module('CropsController', [])
         $scope.lastOnlineTime = currentTime;
     };
 
-    // 每日免费补充
+    // Daily free refill
     $scope.dailyFreeRefill = function() {
         $scope.freeRefills = 6;
     };
@@ -59,7 +62,7 @@ angular.module('CropsController', [])
         }
     };
 
-    // 每日多点触控购买
+    // Buy multitap
     $scope.buyMultitap = function() {
         if ($scope.balance >= $scope.multitapPrice) {
             $scope.balance -= $scope.multitapPrice;
@@ -70,7 +73,7 @@ angular.module('CropsController', [])
         }
     };
 
-    // 能量上限购买
+    // Buy energy limit
     $scope.buyEnergyLimit = function() {
         if ($scope.balance >= $scope.energyLimitPrice) {
             $scope.balance -= $scope.energyLimitPrice;
@@ -81,7 +84,7 @@ angular.module('CropsController', [])
         }
     };
 
-    // 每日奖励
+    // Daily reward
     $scope.dailyReward = function() {
         if ($scope.currentDay < $scope.dailyRewards.length) {
             $scope.balance += $scope.dailyRewards[$scope.currentDay];
@@ -92,7 +95,7 @@ angular.module('CropsController', [])
         }
     };
 
-    // 显示弹出窗口
+    // Show popup
     $scope.showPopup = function(type) {
         switch(type) {
             case 'freeRefill':
@@ -119,17 +122,17 @@ angular.module('CropsController', [])
         $('#popup').modal('show');
     };
 
-    // 隐藏弹出窗口
+    // Hide popup
     $scope.hidePopup = function() {
         $('#popup').modal('hide');
     };
 
-    // 定时自动补充能量，每分钟检查一次
+    // Automatically refill energy every minute
     setInterval($scope.autoRefillEnergy, 60000);
 
-    // 获取作物数据
+    // Fetch crops data
     $scope.crops = CropsData;
 
-    // 添加触摸事件监听器
+    // Add touch event listener
     document.addEventListener('touchstart', $scope.handleTouchEvent, false);
 });
