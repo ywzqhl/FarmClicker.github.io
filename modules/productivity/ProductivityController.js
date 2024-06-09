@@ -1,34 +1,27 @@
-// 定义一个名为 'ProductivityController' 的控制器，并注入 '$scope'、'$http'、'productivity' 和 'harvest' 作为依赖
+// Define a controller named 'ProductivityController' to manage the productivity upgrades view
 FarmClickerApp.controller('ProductivityController', ['$scope', '$http', 'productivity', 'harvest', function($scope, $http, productivity, harvest){
 
-  // 初始化作用域中的 productivityUpgrades 对象
+  // Initialize the scope variable for productivity upgrades
   $scope.productivityUpgrades = {};
 
-  // 使用 $http 服务从 '/modules/productivity/ProductivityUpgrades.js' 获取生产力升级数据
+  // Fetch the productivity upgrades data from the specified file
   $http.get('/modules/productivity/ProductivityUpgrades.js').success(function(data) {
-    // 成功获取数据后，将其赋值给 $scope.productivityUpgrades
     $scope.productivityUpgrades = data;
   });
 
-  // 定义一个函数，当用户点击某个升级时调用
+  // Handle the click event for purchasing an upgrade
   $scope.clickUpgrade = function(upgrade){
-    // 检查收割的作物数量是否大于或等于升级的价格
     if (harvest.getCropsHarvested() >= upgrade.price) {
-      // 如果条件满足，从收割的作物数量中扣除升级的价格
       harvest.deductFromHarvest(upgrade.price);
-      // 增加每秒收割的作物数量
       harvest.increaseHarvestPerSec(upgrade.persecond);
-
-      // 增加已购买的升级数量
       upgrade.bought += 1;
-      // 增加升级的价格，按一定比例增加
       upgrade.price += Math.floor(upgrade.price * upgrade.increase);
     }
   };
 
-  // // 返回显示不可用升级的类（已注释掉）
-  // $scope.unavailable = function(upgrade){
-  //   return harvest.unavailable(upgrade);
-  // };
+  // Returns the class to display if the upgrade is not available
+  $scope.unavailable = function(upgrade){
+    return harvest.getCropsHarvested() < upgrade.price ? "unavailable" : "";
+  };
 
 }]);
