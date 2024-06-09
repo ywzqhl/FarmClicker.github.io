@@ -3,7 +3,11 @@
   <!-- Display the current maximum storage capacity -->
   <h3>Max Storage: {{getMaxStorage()}} Crops</h3>
   <!-- Display the current storage usage -->
-  <h4>Current Storage: {{getCurrentStorage()}} Crops</h4>
+  <h4>Current Storage: {{getCurrentStorage() | number:1}} Crops</h4>
+  <!-- Display the number of free refills left -->
+  <h5>Free Refills Left: {{getFreeRefills()}}</h5>
+  <!-- Button to use a free refill -->
+  <button ng-click="useFreeRefill()" ng-disabled="getFreeRefills() <= 0">Full Storage</button>
 
   <!-- Define a centered table -->
   <table align="center">
@@ -17,7 +21,7 @@
       <td><h4>{{upgrade.bought}}</h4></td>
       <!-- Display the upgrade's name and price -->
       <td>
-        <h4>Buy Silo
+        <h4>Buy {{upgrade.name}}
           <p><small>Costs: {{upgrade.price}} crops</small></p>
         </h4>
       </td>

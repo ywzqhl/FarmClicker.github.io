@@ -34,5 +34,22 @@ FarmClickerApp.controller('StorageController', ['$scope', '$http', 'harvest', 's
     }
   };
 
-}]);
+  // Handle the click event for using a free refill
+  $scope.useFreeRefill = function(){
+    storage.useFreeRefill();
+  };
 
+  // Get the number of free refills left
+  $scope.getFreeRefills = function(){
+    return storage.getFreeRefills();
+  };
+
+  // Reset daily refills
+  storage.resetDailyRefills();
+
+  // Returns the class to display if the upgrade is not available
+  $scope.unavailable = function(upgrade){
+    return harvest.getCropsHarvested() < upgrade.price ? "unavailable" : "";
+  };
+
+}]);
