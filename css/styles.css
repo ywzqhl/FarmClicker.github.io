@@ -24,3 +24,67 @@ h5 {
 td {
     padding: 10px;
 }
+@keyframes riseAndFade {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-150px); /* Increase the translateY value to 150px for 3 times the original path */
+    opacity: 0;
+  }
+}
+
+.riseAndFade {
+  position: absolute;
+  animation: riseAndFade 3s ease-in-out forwards; /* Increase the animation duration to 3s for 3 times the original duration */
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  pointer-events: none; /* Prevent the elements from capturing pointer events */
+}
+
+.shrink {
+  transition: transform 0.1s;
+}
+
+.littleHarvest {
+  transform: scale(0.95);
+}
+
+.progress {
+  height: 20px;
+  background-color: #eee;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  background: linear-gradient(to right, #4caf50, #2196f3);
+  height: 100%;
+  border-radius: 10px;
+}
+
+.riseAndFade {
+  position: absolute;
+  animation: riseAndFade 3s forwards;
+}
+
+@keyframes riseAndFade {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+}
+
+.shrink {
+  transition: transform 0.1s;
+}
+
+.littleHarvest {
+  transform: scale(0.9);
+}
