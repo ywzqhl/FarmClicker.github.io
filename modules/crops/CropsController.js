@@ -1,19 +1,25 @@
+// Define a controller named 'CropsController' to manage the crops view
 FarmClickerApp.controller('CropsController', ['$scope', '$http', 'productivity', 'harvest', function($scope, $http, productivity, harvest){
 
-  $scope.cropsData = {}; // 初始化作用域中的 cropsData 对象
+  $scope.cropsData = {};
 
-  // 使用 $http 服务从 '/modules/crops/CropsData.js' 获取作物数据
+  // Fetch the crops data from the specified file
   $http.get('/modules/crops/CropsData.js').success(function(data) {
-    $scope.cropsData = data; // 成功获取数据后，将其赋值给 $scope.cropsData
+    $scope.cropsData = data;
   });
 
-  // 定义一个函数，当用户点击某个作物时调用
+  // Handle the click event for purchasing a crop
   $scope.clickCrop = function(crop){
-    if (harvest.getCropsHarvested() >= crop.price) { // 检查收割的作物数量是否大于或等于作物的价格
-      harvest.deductFromHarvest(crop.price); // 从收割的作物数量中扣除作物的价格
-      harvest.increaseHarvestPerClick(crop.perClick); // 增加每次点击的收割量
-      crop.bought = true; // 将作物的 'bought' 属性设置为 true，表示已购买
+    if (harvest.getCropsHarvested() >= crop.price) {
+      harvest.deductFromHarvest(crop.price);
+      harvest.increaseHarvestPerClick(crop.perClick);
+      crop.bought = true;
     }
+  };
+
+  // Returns the class to display if the crop is not available
+  $scope.unavailable = function(crop){
+    return harvest.getCropsHarvested() < crop.price ? "unavailable" : "";
   };
 
 }]);
