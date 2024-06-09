@@ -11,13 +11,13 @@ FarmClickerApp.controller('ApplicationController', ['$scope', '$interval', 'harv
     var cropsHarvested = harvest.getCropsHarvested();
     var harvestPerSec = harvest.getHarvestPerSec();
     var maxStorage = storage.getMaxStorage();
-    if (cropsHarvested + harvestPerSec/1 <= maxStorage){
+    //if (cropsHarvested + harvestPerSec/1 <= maxStorage){
       // var cropsHarvested = Math.floor(harvest.getCropsHarvested());
-      harvest.addToHarvest(harvestPerSec/1);
-    }
-    else {
-      harvest.addToHarvest(maxStorage - cropsHarvested);
-    }
+      //harvest.addToHarvest(harvestPerSec/1);
+    //}
+    //else {
+      //harvest.addToHarvest(maxStorage - cropsHarvested);
+    //}
 
   }, 1000);
 }]);
