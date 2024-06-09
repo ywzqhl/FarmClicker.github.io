@@ -1,8 +1,30 @@
-<!-- Use HarvestController to manage this part -->
+<!-- 使用 HarvestController 管理这一部分 -->
 <div ng-controller="HarvestController">
+  <!-- 显示已收割的庄稼数量 -->
   <h2>{{getCropsHarvested() | number:0}} Crops Harvested</h2>
+  <!-- 显示每秒收割的庄稼数量 -->
   <h4>{{getHarvestPerSec() | number:1}} Crops Harvested per second</h4>
-  <div ng-mousedown="smallHarvestCropButton=true" ng-mouseup="smallHarvestCropButton=false">
-    <img ng-class="{'littleHarvest':smallHarvestCropButton}" class="shrink" ng-click="harvestCrops()" ng-src="{{getHarvestCropButton()}}" height="300px" width="300px"/>
+  <!-- 显示当前等级和进度 -->
+  <div>
+    <h4>{{getCurrentLevel()}} <span style="float: right;">Level {{getCurrentLevelNumber()}}/9</span></h4>
+    <div class="progress" style="height: 20px; background-color: #eee; border-radius: 10px; overflow: hidden;">
+      <div class="progress-bar" role="progressbar" style="width: {{getLevelProgress()}}%; background: linear-gradient(to right, #4caf50, #2196f3); height: 100%; border-radius: 10px;" aria-valuenow="{{getLevelProgress()}}" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
   </div>
+  <!-- 收割按钮，带有点击和触摸事件 -->
+  <div 
+    ng-mousedown="smallHarvestCropButton=true" 
+    ng-mouseup="smallHarvestCropButton=false" 
+    ng-touchstart="smallHarvestCropButton=true" 
+    ng-touchend="smallHarvestCropButton=false">
+    <img 
+      id="harvestButton"
+      ng-class="{'littleHarvest':smallHarvestCropButton}" 
+      class="shrink" 
+      ng-src="{{getHarvestCropButton()}}" 
+      height="300px" 
+      width="300px"/>
+  </div>
+  <!-- 动画容器 -->
+  <div id="animationContainer" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;"></div>
 </div>

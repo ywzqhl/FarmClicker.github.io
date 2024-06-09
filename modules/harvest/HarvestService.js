@@ -1,58 +1,75 @@
-// Define a service named 'harvest'
-FarmClickerApp.service('harvest', function(){
-  var harvestCropButton = "../../assets/img/oat.png"; // Path to the harvest crop button image
-  var cropsHarvested = 0; // Number of crops harvested
-  var harvestPerSec = 0; // Crops harvested per second
-  var harvestPerClick = 1; // Crops harvested per click
+FarmClickerApp.service('harvest', function() {
+  var cropsHarvested = 0;
+  var harvestPerSec = 0;
+  var harvestPerClick = 1;
+  var levels = [
+    { name: "Bronze", level: 1, threshold: 0 },
+    { name: "Silver", level: 2, threshold: 5000 },
+    { name: "Gold", level: 3, threshold: 25000 },
+    { name: "Platinum", level: 4, threshold: 100000 },
+    { name: "Diamond", level: 5, threshold: 1000000 },
+    { name: "Epic", level: 6, threshold: 2000000 },
+    { name: "Legendary", level: 7, threshold: 10000000 },
+    { name: "Master", level: 8, threshold: 50000000 },
+    { name: "Grandmaster", level: 9, threshold: 100000000 }
+  ];
 
-  // Get the harvest crop button image path
-  this.getHarvestCropButton = function(){
-    return harvestCropButton;
+  this.getCurrentLevel = function() {
+    for (var i = levels.length - 1; i >= 0; i--) {
+      if (cropsHarvested >= levels[i].threshold) {
+        return levels[i];
+      }
+    }
+    return levels[0];
   };
 
-  // Get the number of crops harvested
+  this.getLevelProgress = function() {
+    var currentLevel = this.getCurrentLevel();
+    var nextLevelThreshold = levels[currentLevel.level] ? levels[currentLevel.level].threshold : currentLevel.threshold;
+    var previousLevelThreshold = levels[currentLevel.level - 1] ? levels[currentLevel.level - 1].threshold : 0;
+    var progress = ((cropsHarvested - previousLevelThreshold) / (nextLevelThreshold - previousLevelThreshold)) * 100;
+    return progress;
+  };
+
+  this.getHarvestCropButton = function(){
+    return "../../assets/img/oat.png";
+  };
+
   this.getCropsHarvested = function(){
     return cropsHarvested;
   };
 
-  // Deduct crops from the harvested crops count
   this.deductFromHarvest = function(amount){
     cropsHarvested -= amount;
   };
 
-  // Harvest crops, increase crops harvested per click
   this.harvestCrops = function(){
     cropsHarvested += harvestPerClick;
   };
 
-  // Add crops to the harvested crops count
   this.addToHarvest = function(amount){
     cropsHarvested += amount;
   };
 
-  // Get crops harvested per second
   this.getHarvestPerSec = function(){
     return harvestPerSec;
   };
 
-  // Get crops harvested per click
   this.getHarvestPerClick = function(){
     return harvestPerClick;
   };
 
-  // Increase crops harvested per second
   this.increaseHarvestPerSec = function(amount){
     harvestPerSec += amount;
   };
 
-  // Increase crops harvested per click
   this.increaseHarvestPerClick = function(amount){
     harvestPerClick += amount;
   };
 
-  // Check if an upgrade is unavailable
   this.unavailable = function(object){
     if (cropsHarvested < object.price)
       return "unavailable";
   };
+
 });
